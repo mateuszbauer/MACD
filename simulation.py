@@ -21,24 +21,25 @@ class TradingSimulator:
         return self.macd.signal[day_index] 
 
     def print_status(self):
-        print("Wallet: {}, Shares amout: {}".format(self.wallet, self.num_of_shares))
+        print('Wallet: {}, Shares amout: {}'.format(self.wallet, self.num_of_shares))
 
     def sell_shares(self, num_of_shares):
         if self.num_of_shares == 0:
-            print("No shares left, cannot sell anymore")
+            print('No shares left, cannot sell anymore')
         
         elif self.num_of_shares <= num_of_shares:
             self.wallet += self.num_of_shares * self.get_current_share_value() 
-            print("Sold {} shares for {}".format(self.num_of_shares, self.num_of_shares * self.get_current_share_value()))
+            print('Sold {} shares for {}'.format(self.num_of_shares, self.num_of_shares * self.get_current_share_value()))
             self.num_of_shares = 0
-            print("All the shares have been sold")
+            print('All the shares have been sold')
         
         else:
             self.wallet += num_of_shares * self.get_current_share_value()
             self.num_of_shares -= num_of_shares
-            print("Sold {} shares for {}".format(num_of_shares, self.get_current_share_value()))
+            print("Sold {} shares for {}".format(num_of_shares, num_of_shares * self.get_current_share_value()))
 
         self.print_status()
+        self.wallet = round(self.wallet, 2)
 
     def buy_shares(self, num_of_shares):
         if self.wallet == 0:
@@ -59,13 +60,14 @@ class TradingSimulator:
                 print("Bought {} shares for {}".format(num_of_shares, price))
 
         self.print_status()
+        self.wallet = round(self.wallet, 2)
 
     # Main function of the class
     # if MACD line crosses SIGNAL line from the bottom - buy
     # if MACD line crosses SIGNAL line from the top - sell
     def trade(self, period):
         print("Starting trading")
-        initial_wealth = self.wallet + self.num_of_shares * self.get_current_share_value()
+        initial_resources = self.wallet + self.num_of_shares * self.get_current_share_value()
         self.print_status()
         while period > 0:
             prev_macd, curr_macd = self.get_macd_value(self.current_day_index+1), self.get_macd_value(self.current_day_index) 
@@ -73,17 +75,20 @@ class TradingSimulator:
 
             if prev_macd < prev_signal and curr_macd >= curr_signal:
                 print("MACD crosses SIGNAL from the bottom - BUY")
-                self.buy_shares(int(self.num_of_shares * 0.25))
+                self.buy_shares(int((self.wallet // self.get_current_share_value()) * 0.1))
            
             elif prev_macd > prev_signal and curr_macd <= curr_signal:
                 print("MACD crosses SIGNAL from the top - SELL")
-                self.sell_shares(int(self.num_of_shares * 0.25))
+                self.sell_shares(int(self.num_of_shares * 0.1))
 
             period -= 1
             self.current_day_index -= 1
 
         self.print_status()
-        wealth_after_trading = self.wallet + self.num_of_shares * self.get_current_share_value()
-        print("Initial wealth = {}, Current wealth = {}".format(initial_wealth, wealth_after_trading))
-        print("approximate profit = {}".format(wealth_after_trading - initial_wealth))
+        resources_after_trading = self.wallet + self.num_of_shares * self.get_current_share_value()
+        print("Initial resources = ${}, Current resources = ${}".format(initial_resources, resources_after_trading))
+        print("Approximate profit:")
+        print("$" + str(round(resources_after_trading - initial_resources, 2)))
+        print(str(round((resources_after_trading - initial_resources) / initial_resources*100, 2)) + "%")
+
 
