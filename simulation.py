@@ -65,7 +65,7 @@ class TradingSimulator:
     # Main function of the class
     # if MACD line crosses SIGNAL line from the bottom - buy
     # if MACD line crosses SIGNAL line from the top - sell
-    def trade(self, period):
+    def trade(self, period=1000):
         print("Starting trading")
         initial_resources = self.wallet + self.num_of_shares * self.get_current_share_value()
         self.print_status()

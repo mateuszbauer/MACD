@@ -27,11 +27,13 @@ class MACD:
             
         return ema
     
-    def plot_data(self):
-        plt.plot(self.df.Date, self.stock_prices, color='black', label='Stock value')
-        plt.plot(self.df.Date, self.macd, color='blue', label='MACD')
-        plt.plot(self.df.Date, self.signal, color='red', label='Signal Line')
-        plt.legend(loc='upper left')
+    def plot_data(self, period):
+        fig, axs = plt.subplots(2)
+        axs[0].plot(self.df.Date[0:period], self.stock_prices[0:period], color='black', label='Stock value')
+        axs[1].plot(self.df.Date[0:period], self.macd[0:period], color='blue', label='MACD')
+        axs[1].plot(self.df.Date[0:period], self.signal[0:period], color='red', label='Signal Line')
+        axs[0].legend(loc='upper left')
+        axs[1].legend(loc='upper left')
         plt.show()
  
                
@@ -39,7 +41,14 @@ def main():
     assert len(sys.argv) > 1, 'Path to data file was not provided'
     
     macd = MACD(sys.argv[1])
-    macd.plot_data()
+
+    if len(sys.argv) > 2:    
+        macd.plot_data(int(sys.argv[2]))
+
+    else:
+        macd.plot_data(len(macd.df))
+
+
 
 
 if __name__ == '__main__':
