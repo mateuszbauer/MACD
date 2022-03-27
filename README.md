@@ -8,8 +8,8 @@ __MACD.py__
 ```sh
 python3 MACD.py <path-to-csv-file> <period>
 ```
-__path-to-csv-file__ is mandatory. Examples of a .csv file contaning data are inside **sample_data** directory.
-__period__ is optional. By default it will display all data, but it is possible to specify number of days that should be displayed on a chart.
+__path-to-csv-file__ is mandatory. Examples of a .csv file contaning data are inside **sample_data** directory. <br>
+__period__ is optional. By default it will display all data, but it is possible to specify number of days that should be displayed on a chart. <br>
 **Example**:
 ```sh
 python3 MACD.py my-data-file.csv 30
@@ -24,9 +24,9 @@ __main.py__
 ```sh
 python3 main.py <path-to-csv-file> <starting-date> <period>
 ```
-**path-to-csv-file** is mandatory. Examples of a .csv file contaning data are inside **sample_data** directory.
-**starting-date** is mandatory. Its format is MM/DD/YYYY.
-**period** is optional. By default it will do its job for 1000 days.
+**path-to-csv-file** is mandatory. Examples of a .csv file contaning data are inside **sample_data** directory. <br>
+**starting-date** is mandatory. Its format is MM/DD/YYYY. <br>
+**period** is optional. By default it will do its job for 1000 days. <br>
 **Example**:
 ```sh
 python3 main.py my-data-file.csv 08/01/2017 50
